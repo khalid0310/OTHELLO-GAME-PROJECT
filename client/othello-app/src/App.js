@@ -1,6 +1,7 @@
 import './App.css';
 import GamingHeroSection from './components/Hero';
 import Navbar from './components/Navbar';
+import TutorialComponent from './components/Tutorial';
 import Video from './components/Video';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <Navbar />
       <GamingHeroSection />
       <Video />
+      <TutorialComponent />
     </div>
   );
 }
