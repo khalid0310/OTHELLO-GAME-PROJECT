@@ -1,9 +1,16 @@
 import './App.css';
+import GamingHeroSection from './components/Hero';
+import Navbar from './components/Navbar';
+import TutorialComponent from './components/Tutorial';
+import Video from './components/Video';
 
 function App() {
   return (
-    <div className="App">
-      <h1>hello world</h1>
+    <div className="App mx-8">
+      <Navbar />
+      <GamingHeroSection />
+      <Video />
+      <TutorialComponent />
     </div>
   );
 }
