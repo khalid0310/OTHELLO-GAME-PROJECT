@@ -12,7 +12,7 @@
   height: auto;
   margin: 0;
   font-family: sans-serif;
-  background: var(--background-gradient);
+  background:rgb(112, 109, 109);
   overflow: hidden;
 }
 
@@ -24,7 +24,7 @@
   margin: 0 auto;
   padding: 40px;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0);
+  background: rgba(234, 225, 225, 0.898);
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(42, 101, 212, 0.6);
   border-radius: 10px;
@@ -33,7 +33,7 @@
 }
 
 .login-box:hover {
-  background: rgba(0, 0, 0, 0.5);
+   background: rgba(0, 0, 0, 0.7); 
 }
 
 .login-box h2 {
