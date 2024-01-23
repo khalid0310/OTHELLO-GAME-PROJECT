@@ -1,1 +1,139 @@
-/* App.css-css for app file */
+/* Add these styles for player profiles */
+.othello-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.othello-profile {
+  text-align: center;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.othello-disc {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.black-profile {
+  order: 1; /* Move the black profile to the left */
+}
+
+.white-profile {
+  order: 5; /* Move the white profile to the right */
+}
+
+/* Add any other necessary styling for the player profiles */
+
+.othello-board-container {
+  position: relative;
+}
+
+.othello-board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 480px; /* Adjust as needed */
+  margin: 0 auto;
+}
+
+.othello-cell {
+  background-color: #27660c;
+  border: 2px solid black;
+  display: inline-block;
+  height: 60px;
+  width: 60px;
+  position: relative;
+  cursor: pointer;
+}
+
+.othello-cell.valid-move {
+  background-color: #4caf50; /* Change the color for valid moves */
+}
+
+.othello-piece {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.othello-piece.black {
+  background-image: url(https://github.com/t1m1t/othello/blob/master/images/Sith_Logo.png?raw=true);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.othello-piece.white {
+  background-image: url(https://github.com/t1m1t/othello/blob/master/images/jedi1.png?raw=true);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.othello-ai-move {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent color for AI move indicator */
+}
+
+.othello-invalid-move {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 0, 0, 0.3); /* Semi-transparent red for invalid move indicator */
+}
+
+.othello-game-over {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Additional styling for the modal dialogs */
+.modal-content,
+.modal-content2 {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 499px;
+  height: 250px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Add any other necessary styling for modal dialogs */
+
+/* Reset button styling */
+#reset-button {
+  text-align: center;
+}
+
+.reset {
+  width: 200px;
+  height: 50px;
+  border-radius: 30px;
+  font-size: 30px;
+  font-family: coolFont;
+  color: white;
+  background-color: black;
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.reset:hover {
+  background-color: ghostwhite;
+  color: black;
+  text-shadow:
+    1px 1px white,
+    -1px 1px white,
+    1px -1px white,
+    -1px -1px white,
+    1px 1px 5px white;
+}
