@@ -5,7 +5,9 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Login from "./pages/Login";
-import SignupPage from "./pages/signup"; 
+import SignupPage from "./pages/signup";
+import GamePage from "./pages/GamePage"; 
+
 function App() {
   return (
     <Router>
@@ -16,6 +18,7 @@ function App() {
           <Route path="/explore" element={<Explore />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/game" element={<GamePage />} /> 
         </Routes>
       </div>
     </Router>
@@ -23,3 +26,4 @@ function App() {
 }
 
 export default App;
+
