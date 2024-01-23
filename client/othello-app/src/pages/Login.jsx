@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./login.css"; // Make sure to import your stylesheet
 
 function Login() {
@@ -28,18 +29,18 @@ function Login() {
           />
           <label htmlFor="keepSignedIn">Keep me signed in</label>
         </div>
-        <a href="#" className="submit-btn">
+        <Link to="/login" className="submit-btn">
           <span></span>
           <span></span>
           <span></span>
           <span></span>
           Submit
-        </a>
+        </Link>
         <p className="signup-link">
           Don't have an account?{" "}
-          <a href="#" className="signup-link-text">
+          <Link to="/signup" className="signup-link-text">
             Sign Up
-          </a>
+          </Link>
         </p>
       </form>
     </div>
