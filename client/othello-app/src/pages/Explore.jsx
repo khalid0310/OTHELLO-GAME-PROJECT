@@ -3,12 +3,12 @@ import React from 'react';
 
 const Explore = () => {
   return (
-    <div className="about-container max-w-3xl mx-auto mt-8 p-6 bg-white shadow-lg">
+    <div id='explore' className="about-container max-w-3xl mx-auto mt-8 p-6   text-black shadow-xl  flex flex-col gap-4">
       <h2 className="text-3xl font-semibold mb-4 text-center">About Othello Game</h2>
 
       <div className="mb-6">
         <h1 className="text-2xl font-semibold mb-2">History</h1>
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-red-700 ">
           Englishmen Lewis Waterman and John W. Mollett both claim to have invented the game of Reversi in 1883, each denouncing the other as a fraud. The game gained considerable popularity in England at the end of the 19th century. The game's first reliable mention is in the 21 August 1886 edition of The Saturday Review. Later mention includes an 1895 article in The New York Times, which describes Reversi as "something like Go Bang, played with 64 pieces." In 1893, the German games publisher Ravensburger started producing the game as one of its first titles. Two 18th-century continental European books dealing with a game that may or may not be Reversi are mentioned on page fourteen of the Spring 1989 Othello Quarterly, and there has been speculation, so far without documentation, that the game has older origins. [citation needed]
 
           A Japanese publication in 1907 titled World Games Rules Complete Collection (世界遊戯法大全) describes the board game Reversi with the same rules as Othello where the first four pieces go in the center in a diagonal pattern and the player who cannot make a move simply passes.
@@ -16,8 +16,8 @@ const Explore = () => {
       </div>
 
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold mb-2">Othello</h1>
-        <p className="text-sm text-gray-700">
+        <h1 className="text-2xl font-light mb-2">Othello</h1>
+        <p className="text-sm text-black">
           Othello
           A modern plastic Othello set
 
