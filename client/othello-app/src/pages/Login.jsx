@@ -9,8 +9,7 @@ function Login() {
   };
 
   return (
-    <div className="login-box">
-      <h2>Login</h2>
+    <div id="bd" className="login-box">
       <form>
         <div className="user-box">
           <input type="text" name="" required />
