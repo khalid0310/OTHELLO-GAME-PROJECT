@@ -21,13 +21,16 @@ function Login() {
           <label>Password</label>
         </div>
         <div className="keep-signed-in-box">
-          <input
-            type="checkbox"
-            id="keepSignedIn"
-            checked={keepSignedIn}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor="keepSignedIn">Keep me signed in</label>
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              id="keepSignedIn"
+              checked={keepSignedIn}
+              onChange={handleCheckboxChange}
+            />
+            <span className="custom-checkbox"></span>
+            Keep me signed in
+          </label>
         </div>
         <Link to="/login" className="submit-btn">
           <span></span>

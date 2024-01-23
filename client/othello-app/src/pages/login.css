@@ -384,3 +384,63 @@
     transform: rotate(360deg);
   }
 }
+/* Style the checkbox container */
+.login-box .keep-signed-in-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Style the custom checkbox */
+.login-box .keep-signed-in-box input {
+  opacity: 0;
+  cursor: pointer;
+  width: 20px; /* Set a width for the checkbox */
+  height: 20px; /* Set a height for the checkbox */
+  margin-right: 30px; /* Adjust spacing between checkbox and label */
+}
+
+
+..login-box .keep-signed-in-box input {
+  opacity: 0;
+  cursor: pointer;
+  width: 20px; /* Set a width for the checkbox */
+  height: 20px; /* Set a height for the checkbox */
+  margin-right: 20px; /* Adjust spacing between checkbox and label */
+}
+
+.login-box .keep-signed-in-box span {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background-color: transparent;
+  margin-right: 10px; /* Adjust vertical spacing */
+}
+
+/* Style the checkmark inside the custom checkbox */
+.login-box .keep-signed-in-box span::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Show the checkmark when the checkbox is checked */
+.login-box .keep-signed-in-box input:checked + span::after {
+  display: block;
+}
+
+/* Style the label */
+.login-box .keep-signed-in-box label {
+  color: #fff;
+  font-size: 16px;
+}
