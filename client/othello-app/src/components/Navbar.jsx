@@ -58,7 +58,7 @@ const Navbar = () => {
             <MdInfoOutline className="mr-1 text-2xl" /> Explore
           </a>
           <button className='bg-[#392467] px-6 py-3 rounded-full'>
-          <a href="http://localhost:4000" className='text-white'>
+          <a href="http://localhost:4000/login" className='text-white'>
             login
           </a>
           </button>

@@ -14,7 +14,7 @@ def index():
     return ""
 @app.route("/login")
 def login():
-    return ""
+    return "LOGIN"
 
 
 if __name__ == "__main__":
