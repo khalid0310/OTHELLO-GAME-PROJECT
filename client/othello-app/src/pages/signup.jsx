@@ -37,12 +37,11 @@ const SignupPage = () => {
         if (charIndex < currentMessage.length) {
           divRef.current.innerHTML = currentMessage.slice(0, charIndex + 1);
           charIndex++;
-          setTimeout(typeText, 70); // Adjusted the typing speed (milliseconds) for a slower effect
+          setTimeout(typeText, 70);
         } else {
-          // Move to the next message
           messageIndex++;
           charIndex = 0;
-          setTimeout(typeText, 1500); // Pause before typing the next message
+          setTimeout(typeText, 1500);
         }
       } else {
         const signupForm = document.getElementById("signup-form");
@@ -50,7 +49,6 @@ const SignupPage = () => {
       }
     };
 
-    // Trigger typing animation
     typeText();
   };
 
@@ -68,7 +66,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div>
+    <div id="dy">
       <div ref={divRef} id="terminal">
         <div>
           <br />
