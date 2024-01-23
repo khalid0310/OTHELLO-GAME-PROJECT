@@ -29,11 +29,12 @@
   box-shadow: 0 15px 25px rgba(42, 101, 212, 0.6);
   border-radius: 10px;
   transition: background 0.5s ease;
+  transition: box-shadow 0.3s ease-in-out;
   overflow: hidden;
 }
 
 .login-box:hover {
-   background: rgba(0, 0, 0, 0.7); 
+    box-shadow: 0 0 20px rgba(22, 227, 217, 0.8); /* Adjust the shadow on hover */
 }
 
 .login-box h2 {
