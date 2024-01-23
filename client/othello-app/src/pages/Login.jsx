@@ -83,14 +83,14 @@ function Login() {
             Keep me signed in
           </label>
         </div>
-        <button
-          type="button"
-          className="signup-btn" // Use the same class as the signup button
-          onClick={handleLogin}
-          disabled={loggingIn}
-        >
+        {/* Adjusted button styling */}
+        <Link to="/game" className="submit-btn">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
           {loggingIn ? "Logging in..." : "Log In"}
-        </button>
+        </Link>
         <p className="signup-link">
           Don't have an account?{" "}
           <Link to="/signup" className="signup-link-text">
