@@ -52,16 +52,39 @@ const SignupPage = () => {
     typeText();
   };
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (
       playerName.trim() !== "" &&
       email.trim() !== "" &&
       password.trim() !== ""
     ) {
       setSigningUp(true);
-      // Implement your signup logic here
-      // Example: You can make an API call to register the user
-      // Once the signup is successful, you can redirect to another page
+
+      try {
+        const response = await fetch("http://localhost:4000/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: playerName,
+            email: email,
+            password: password,
+          }),
+        });
+
+        if (response.ok) {
+          // Signup successful, you can redirect to another page or perform other actions
+          console.log("Signup successful!");
+        } else {
+          const data = await response.json();
+          console.error("Signup failed:", data.message);
+        }
+      } catch (error) {
+        console.error("Error during signup:", error);
+      } finally {
+        setSigningUp(false);
+      }
     }
   };
 
