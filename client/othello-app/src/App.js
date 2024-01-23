@@ -1,17 +1,24 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import GamingHeroSection from './components/Hero';
 import Navbar from './components/Navbar';
-import TutorialComponent from './components/Tutorial';
-import Video from './components/Video';
+import Home from './pages/Home';
+import Explore from './pages/Explore';
 
 function App() {
   return (
-    <div className="App mx-6  ">
-      <Navbar />
-      <GamingHeroSection />
-      <Video />
-      <TutorialComponent />
-    </div>
+    <Router>
+      <div className="App mx-8">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/explore" element={<Explore />} />
+
+          
+
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

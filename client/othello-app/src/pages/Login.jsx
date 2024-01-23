@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./login.css"; // Make sure to import your stylesheet
-// import "./App.css";
 
-function login() {
+function Login() {
   const [keepSignedIn, setKeepSignedIn] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -48,4 +47,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;

@@ -1,8 +1,8 @@
-// Navbar.js
-
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MdHome, MdInfoOutline } from 'react-icons/md';
 import { FaGamepad } from 'react-icons/fa';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -11,7 +11,8 @@ const Navbar = () => {
       <div className="flex items-center justify-between">
         <div className="text-black flex items-center font-bold text-2xl gap-2">
           <FaGamepad className='text-5xl text-[#A367B1] font-bold'/>
-          <h1>Othello</h1></div>
+          <h1>Othello</h1>
+        </div>
         <div className="md:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -51,16 +52,16 @@ const Navbar = () => {
           </button>
         </div>
         <div className="hidden md:flex space-x-4 gap-4">
-          <a href="#" className="text-black flex items-center">
+          <Link to="/" className="text-black flex items-center">
             <MdHome className="mr-1 text-2xl" /> Home
-          </a>
-          <a href="#" className="text-black flex items-center">
+          </Link>
+          <Link to="/explore" className="text-black flex items-center">
             <MdInfoOutline className="mr-1 text-2xl" /> Explore
-          </a>
+          </Link>
           <button className='bg-[#392467] px-6 py-3 rounded-full'>
-          <a href="http://localhost:4000/login" className='text-white'>
-            login
-          </a>
+            <Link to="/Login" className='text-white'>
+              Login
+            </Link>
           </button>
           {/* Add more links as needed */}
         </div>
@@ -69,12 +70,12 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden mt-4">
           <div className="flex flex-col space-y-2">
-            <a href="#" className="text-white flex items-center">
+            <Link to="/" className="text-white flex items-center">
               <MdHome className="mr-1" /> Home
-            </a>
-            <a href="#" className="text-white flex items-center">
+            </Link>
+            <Link to="/explore" className="text-white flex items-center">
               <MdInfoOutline className="mr-1" /> About
-            </a>
+            </Link>
             {/* Add more links as needed */}
           </div>
         </div>
