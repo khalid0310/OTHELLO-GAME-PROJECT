@@ -1,8 +1,7 @@
 // Import statements
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css"; // Make sure to import your stylesheet
-import GamePage from "./GamePage";
 
 // Login component
 function Login() {
@@ -11,7 +10,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const [keepSignedIn, setKeepSignedIn] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
-  const navigate = useNavigate(); // Change this line
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const navigate = useNavigate();
 
   // Functions
   const handleCheckboxChange = () => {
@@ -34,8 +34,8 @@ function Login() {
       });
 
       if (response.ok) {
-        // Login successful, redirect to the "/game" route
-        navigate("/game"); // Replace "/game" with the desired route
+        // Login successful
+        setLoginSuccess(true);
       } else {
         const data = await response.json();
         alert("Login failed: " + data.message);
@@ -47,57 +47,73 @@ function Login() {
     }
   };
 
+  // Redirect to "/game" after successful login
+  useEffect(() => {
+    const redirectTimeout = setTimeout(() => {
+      if (loginSuccess) {
+        navigate("/game");
+      }
+    }, 1000); // 1000 milliseconds (1 second)
+
+    return () => clearTimeout(redirectTimeout);
+  }, [loginSuccess, navigate]);
+
   // JSX
   return (
     <div id="bd" className="login-box">
-      <form>
-        <div className="user-box">
-          <input
-            type="text"
-            name="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <label>Username</label>
-        </div>
-        <div className="user-box">
-          <input
-            type="password"
-            name="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <label>Password</label>
-        </div>
-        <div className="keep-signed-in-box">
-          <label className="checkbox-label">
+      {!loginSuccess ? (
+        <form>
+          <div className="user-box">
             <input
-              type="checkbox"
-              id="keepSignedIn"
-              checked={keepSignedIn}
-              onChange={handleCheckboxChange}
+              type="text"
+              name="username"
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
-            <span className="custom-checkbox"></span>
-            Keep me signed in
-          </label>
-        </div>
-        {/* Adjusted button styling */}
-        <Link to="/game" className="submit-btn">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          {loggingIn ? "Logging in..." : "Log In"}
-        </Link>
-        <p className="signup-link">
-          Don't have an account?{" "}
-          <Link to="/signup" className="signup-link-text">
-            Sign Up
-          </Link>
-        </p>
-      </form>
+            <label>Username</label>
+          </div>
+          <div className="user-box">
+            <input
+              type="password"
+              name="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <label>Password</label>
+          </div>
+          <div className="keep-signed-in-box">
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                id="keepSignedIn"
+                checked={keepSignedIn}
+                onChange={handleCheckboxChange}
+              />
+              <span className="custom-checkbox"></span>
+              Keep me signed in
+            </label>
+          </div>
+          {/* Use button instead of Link */}
+          <button
+            className="submit-btn"
+            onClick={handleLogin}
+            disabled={loggingIn}
+          >
+            {loggingIn ? "Logging in..." : "Log In"}
+          </button>
+          <p className="signup-link">
+            Don't have an account?{" "}
+            <Link to="/signup" className="signup-link-text">
+              Sign Up
+            </Link>
+          </p>
+        </form>
+      ) : (
+        <p>Login successful. Redirecting...</p>
+        // You can add a loading spinner or other UI here if needed
+      )}
     </div>
   );
 }
