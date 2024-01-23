@@ -1,37 +1,28 @@
-from datetime import datetime
-from flask import Flask
-from models import db, Player, Game, Login
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///othello.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
-db.init_app(app)
+# seeds.py
+from app import app, db
+from models import User, Move, PlayerScore
 
 with app.app_context():
-    # Create the database tables
-    db.create_all()
+    # Seed Users
+    user1 = User(username="john_doe", email="john@example.com")
+    user1.set_password("password123")
 
-    # Add seed data
-    player1 = Player(name="amar")
-    player2 = Player(name="john")
+    user2 = User(username="jane_doe", email="jane@example.com")
+    user2.set_password("securepassword")
 
-    db.session.add(player1)
-    db.session.add(player2)
+    # Seed Moves
+    move1 = Move(move_number=1, move_description="Initial move", user=user1)
+    move2 = Move(move_number=2, move_description="Second move", user=user1)
+
+    move3 = Move(move_number=1, move_description="First move", user=user2)
+    move4 = Move(move_number=2, move_description="Another move", user=user2)
+
+    # Seed PlayerScores
+    score1 = PlayerScore(score=100, user=user1)
+    score2 = PlayerScore(score=75, user=user2)
+
+    # Add and commit the changes to the database
+    db.session.add_all([user1, user2, move1, move2, move3, move4, score1, score2])
     db.session.commit()
 
-    game1 = Game(date_played=datetime.now(), result="Win", player=player1)
-    game2 = Game(date_played=datetime.now(), result="Loss", player=player2)
-
-    db.session.add(game1)
-    db.session.add(game2)
-    db.session.commit()
-
-    login1 = Login(username="Amar", password="password123", score=100, player=player1)
-    login2 = Login(username="john", password="securepassword", score=80, player=player2)
-
-    db.session.add(login1)
-    db.session.add(login2)
-    db.session.commit()
-
-    print("Database seeded successfully.")
+    print("Database seeded successfully!")

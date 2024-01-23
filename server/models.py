@@ -1,31 +1,43 @@
+# models.py
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 db = SQLAlchemy()
 
-class Player(db.Model):
+
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    logins = db.relationship('Login', backref=db.backref('player', lazy=True))
-    games = db.relationship('Game', backref=db.backref('player', lazy=True))
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f"<Player {self.id}: {self.name}>"
+        return f"User('{self.username}', '{self.email}')"
 
-class Game(db.Model):
+
+class Move(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date_played = db.Column(db.DateTime, nullable=False)
-    result = db.Column(db.String(10), nullable=False)
-    player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
+    move_number = db.Column(db.Integer, nullable=False)
+    move_description = db.Column(db.String(255), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
-        return f"<Game {self.id}: {self.date_played} - {self.result}>"
+        return f"Move(id={self.id}, move_number={self.move_number}, move_description='{self.move_description}', user_id={self.user_id})"
 
-class Login(db.Model):
+
+class PlayerScore(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(50), nullable=False)
-    score = db.Column(db.Integer, default=0)
-    player_id = db.Column(db.Integer, db.ForeignKey('player.id'), nullable=False)
+    score = db.Column(db.Integer, nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
-        return f"<Login {self.id}: {self.username} - Score: {self.score}>"
+        return f"PlayerScore(id={self.id}, score={self.score}, date_created={self.date_created}, user_id={self.user_id})"
