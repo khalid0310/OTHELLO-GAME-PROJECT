@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./signup.css";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const divRef = useRef(null);
   const [playerName, setPlayerName] = useState("");
   const [email, setEmail] = useState("");
@@ -74,8 +76,8 @@ const SignupPage = () => {
         });
 
         if (response.ok) {
-          // Signup successful, you can redirect to another page or perform other actions
-          console.log("Signup successful!");
+          // Signup successful, redirect to the login page
+          navigate("/login"); // Change "/login" to the actual login route
         } else {
           const data = await response.json();
           console.error("Signup failed:", data.message);
