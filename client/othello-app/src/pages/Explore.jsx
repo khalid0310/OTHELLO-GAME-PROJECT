@@ -3,7 +3,7 @@ import React from 'react';
 
 const Explore = () => {
   return (
-    <div id='explore' className="about-container max-w-3xl mx-auto mt-8 p-6   text-black shadow-xl  flex flex-col gap-4">
+    <div id='explore' className="about-container max-w-3xl mx-auto mt-8 p-6   text-white shadow-xl  flex flex-col gap-4">
       <h2 className="text-3xl font-semibold mb-4 text-center">About Othello Game</h2>
 
       <div className="mb-6">
@@ -17,7 +17,7 @@ const Explore = () => {
 
       <div className="mb-6">
         <h1 className="text-2xl font-light mb-2">Othello</h1>
-        <p className="text-sm text-black">
+        <p className="text-sm text-gray-200">
           Othello
           A modern plastic Othello set
 

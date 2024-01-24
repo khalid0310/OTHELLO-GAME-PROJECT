@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="py-4">
       <div className="flex items-center justify-between">
-        <div className="text-black flex items-center font-bold text-2xl gap-2">
+        <div className="text-white flex items-center font-bold text-2xl gap-2">
           <FaGamepad className='text-5xl text-[#A367B1] font-bold'/>
           <h1>Othello</h1>
         </div>
@@ -52,10 +52,10 @@ const Navbar = () => {
           </button>
         </div>
         <div className="hidden md:flex space-x-4 gap-4">
-          <Link to="/" className="text-black flex items-center">
+          <Link to="/" className="text-white flex items-center">
             <MdHome className="mr-1 text-2xl" /> Home
           </Link>
-          <Link to="/explore" className="text-black flex items-center">
+          <Link to="/explore" className="text-white flex items-center">
             <MdInfoOutline className="mr-1 text-2xl" /> Explore
           </Link>
           <button className='bg-[#392467] px-6 py-3 rounded-full'>

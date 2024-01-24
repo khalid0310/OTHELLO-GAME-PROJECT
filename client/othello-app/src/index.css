@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  background-color: black;
+}
 :root {
     --primary-color: #03e9f4;
     --background-gradient: linear-gradient(#0f1215f2, #49709c);
