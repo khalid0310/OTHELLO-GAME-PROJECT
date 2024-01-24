@@ -9,10 +9,15 @@ const Navbar = () => {
   return (
     <nav className="py-4">
       <div className="flex items-center justify-between">
+      <Link to="/" className="">
+
         <div className="text-white flex items-center font-bold text-2xl gap-2">
+
           <FaGamepad className='text-5xl text-[#A367B1] font-bold'/>
           <h1>Othello</h1>
         </div>
+        </Link>
+
         <div className="md:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
