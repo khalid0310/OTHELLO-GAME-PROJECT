@@ -20,6 +20,11 @@ const SignupPage = () => {
 
   const animateWelcomeScreen = () => {
     const welcomeLogin = document.getElementById("terminal");
+    if (!welcomeLogin) {
+      // The element might not be available, check and return
+      return;
+    }
+
     welcomeLogin.style.opacity = "1";
     welcomeLogin.style.top = `50%`;
     welcomeLogin.style.left = `50%`;
@@ -37,7 +42,9 @@ const SignupPage = () => {
       if (messageIndex < messages.length) {
         const currentMessage = messages[messageIndex];
         if (charIndex < currentMessage.length) {
-          divRef.current.innerHTML = currentMessage.slice(0, charIndex + 1);
+          if (divRef.current) {
+            divRef.current.innerHTML = currentMessage.slice(0, charIndex + 1);
+          }
           charIndex++;
           setTimeout(typeText, 70);
         } else {
@@ -47,7 +54,9 @@ const SignupPage = () => {
         }
       } else {
         const signupForm = document.getElementById("signup-form");
-        signupForm.style.opacity = "1";
+        if (signupForm) {
+          signupForm.style.opacity = "1";
+        }
       }
     };
 
@@ -55,14 +64,18 @@ const SignupPage = () => {
   };
 
   const handleSignup = async () => {
-    if (
-      playerName.trim() !== "" &&
-      email.trim() !== "" &&
-      password.trim() !== ""
-    ) {
+    if (playerName.trim() !== "" && email.trim() !== "" && password.trim() !== "") {
+      // Check if the email meets Gmail requirements
+      const gmailRegex = /^[a-zA-Z0-9]+@gmail.com$/;
+      if (!gmailRegex.test(email)) {
+        alert("Please enter a valid Gmail address.");
+        return;
+      }
+
       setSigningUp(true);
 
       try {
+        console.log("Sending signup request...");
         const response = await fetch("http://localhost:4000/signup", {
           method: "POST",
           headers: {
@@ -77,6 +90,7 @@ const SignupPage = () => {
 
         if (response.ok) {
           // Signup successful, redirect to the login page
+          console.log("Signup successful!");
           navigate("/login"); // Change "/login" to the actual login route
         } else {
           const data = await response.json();
@@ -87,6 +101,8 @@ const SignupPage = () => {
       } finally {
         setSigningUp(false);
       }
+    } else {
+      alert("Please fill in all the required fields.");
     }
   };
 
@@ -103,7 +119,7 @@ const SignupPage = () => {
         <h1>Signup to Play</h1>
         <input
           type="text"
-          placeholder="Hacker nickname"
+          placeholder="Username"
           value={playerName}
           onChange={(e) => setPlayerName(e.target.value)}
         />
