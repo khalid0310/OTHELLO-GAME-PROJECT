@@ -1,10 +1,20 @@
-import React from "react";
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import SinglePlayerPage from './SinglePlayerPage';
+import TwoPlayerPage from './TwoPlayerPage';
 
 function GamePage() {
   return (
     <div>
-      <h2>Game Page</h2>
-      {/* Add your game components and logic here */}
+      <h1>Game Page</h1>
+      <div>
+        <Link to="/game/singleplayer">Single Player</Link>{' '}
+        <Link to="/game/twoplayer">Two Player</Link>
+      </div>
+      <Routes>
+        <Route path="/singleplayer" element={<SinglePlayerPage />} />
+        <Route path="/twoplayer" element={<TwoPlayerPage />} />
+      </Routes>
     </div>
   );
 }
