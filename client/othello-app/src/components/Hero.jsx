@@ -8,9 +8,15 @@ const GamingHeroSection = () => {
   // Replace 'your-image-url' with the URL of your Unsplash image
   const imageUrl = 'https://source.unsplash.com/1920x1080/?gaming';
   useEffect(() => {
-    AOS.init({ duration: 1000 }); // Initialize AOS with your preferred configuration
+    AOS.init({ duration: 1000 }); 
   }, []);
+  const scrollToTarget = () => {
+    const targetElement = document.getElementById('Video');
 
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <div className="relative">
       {/* Image Overlay */}
@@ -27,7 +33,9 @@ const GamingHeroSection = () => {
         <h1 className="text-4xl font-bold mb-4">Welcome to the Gaming World</h1>
         <p className="text-lg">Explore the most exciting gaming experiences.</p>
         <h3>scroll down for tutorial</h3>
-        <FaArrowDown  className='bg-purple-600 w-[50px] h-[50px] p-4 rounded-full'/>
+        <a href="#Video">
+        <FaArrowDown onClick={scrollToTarget}  className='bg-purple-600 w-[50px] h-[50px] p-4 rounded-full'/>
+        </a>
       </div>
 
       {/* Image Background */}

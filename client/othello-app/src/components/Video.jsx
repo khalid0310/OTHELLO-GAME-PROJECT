@@ -8,7 +8,7 @@ const Video = () => {
   const videoUrl = 'https://youtu.be/zFrlu3E18BA?si=eYhmmuLIXLrGXQqj';
 
   return (
-    <div className="relative mb-3">
+    <div id='Video' className="relative mb-3">
       <div className='flex gap-2 items-center'>
         <h1 className='text-4xl py-6 font-thin'>Video Tutorial</h1>
         <FaFilm className='py-4 text-8xl' />
