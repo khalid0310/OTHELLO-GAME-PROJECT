@@ -122,7 +122,7 @@ const TwoPlayerGame = () => {
   }, [board, showGameOverMessage, initialRender, currentPlayer]);
 
   return (
-    <div className="othello-container bg-slate-300">
+    <div className="othello-container bg-green-100/50 shadow -md">
       <div className="othello-profile black-profile">
         <div className="othello-disc black-disc" />
         <p className='px-4 text-purple-500 border-1 border-l-2 border-black py-3 font-bold '>Black Turn</p>
