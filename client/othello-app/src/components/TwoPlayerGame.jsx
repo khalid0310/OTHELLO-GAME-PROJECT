@@ -60,12 +60,9 @@ const TwoPlayerGame = () => {
       }
 
       newBoard[row][col] = currentPlayer;
-
-      setTimeout(() => {
-        setBoard(newBoard);
-        setCurrentPlayer(currentPlayer === "black" ? "white" : "black");
-        updateScores(newBoard); // Update scores
-      }, 500); // Adjust the delay as needed for the entry animation
+      setBoard(newBoard);
+      setCurrentPlayer(currentPlayer === "black" ? "white" : "black");
+      updateScores(newBoard); // Update scores
     }
   };
 
@@ -125,6 +122,25 @@ const TwoPlayerGame = () => {
     }
 
     setScores(scoresObject);
+  };
+
+  const resetGame = () => {
+    // Reset the game to initial state
+    const newBoard = Array(8)
+      .fill()
+      .map(() => Array(8).fill(null));
+    newBoard[3][3] = newBoard[4][4] = "white";
+    newBoard[3][4] = newBoard[4][3] = "black";
+    setBoard(newBoard);
+    setCurrentPlayer("black");
+    setShowGameOverMessage(false);
+    setScores({ black: 2, white: 2 });
+    setInitialRender(false);
+  };
+
+  const goBack = () => {
+    // Implement the logic to go back (if applicable)
+    console.log("Go back functionality");
   };
 
   useEffect(() => {
@@ -195,6 +211,30 @@ const TwoPlayerGame = () => {
           .othello-piece.white {
             animation: discFlip 0.5s ease-in-out;
           }
+
+          .othello-buttons {
+            display: flex;
+            margin-top: 10px;
+          }
+
+          .othello-button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            margin: 0;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px; /* Adjust the margin as needed for spacing */
+          }
+
+          .othello-button-space {
+            flex: 1; /* This will create space between buttons */
+          }
         `}
       </style>
 
@@ -230,6 +270,16 @@ const TwoPlayerGame = () => {
           White Turn
         </p>
         <p className="px-4 font-bold text-2xl">White Score: {scores.white}</p>
+      </div>
+
+      <div className="othello-buttons">
+        <button className="othello-button" onClick={resetGame}>
+          Reset Game
+        </button>
+        <span className="othello-button-space" />
+        <button className="othello-button" onClick={goBack}>
+          Go Back
+        </button>
       </div>
 
       {showGameOverMessage && <p className="othello-game-over">Game Over!</p>}

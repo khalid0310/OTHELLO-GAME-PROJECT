@@ -40,7 +40,7 @@ const OthelloBoard = () => {
   };
 
   const makeMove = (row, col) => {
-    const opponent = currentPlayer === "black" ? "white" : "black"; // Determine opponent based on current player
+    const opponent = currentPlayer === "black" ? "white" : "black";
     const newBoard = board.map((row) => [...row]);
     const directions = [
       { row: -1, col: 0 },
@@ -103,7 +103,7 @@ const OthelloBoard = () => {
 
   const isValidMove = (row, col) => {
     if (board[row][col] !== null) {
-      return false; // Cell is not empty, invalid move
+      return false;
     }
 
     const directions = [
@@ -117,7 +117,6 @@ const OthelloBoard = () => {
       { row: 1, col: 1 },
     ];
 
-    // Check each direction for valid moves
     for (const direction of directions) {
       let i = row + direction.row;
       let j = col + direction.col;
@@ -126,14 +125,14 @@ const OthelloBoard = () => {
       while (i >= 0 && i < 8 && j >= 0 && j < 8) {
         if (board[i][j] === currentPlayer) {
           if (foundOpponent) {
-            return true; // Found a valid move
+            return true;
           } else {
-            break; // No opponent pieces in between, invalid move
+            break;
           }
         } else if (board[i][j] === null) {
-          break; // Empty cell, stop searching in this direction
+          break;
         } else {
-          foundOpponent = true; // Found opponent's piece
+          foundOpponent = true;
         }
 
         i += direction.row;
@@ -141,7 +140,7 @@ const OthelloBoard = () => {
       }
     }
 
-    return false; // No valid move found in any direction
+    return false;
   };
 
   const updateScores = (newBoard) => {
@@ -177,15 +176,36 @@ const OthelloBoard = () => {
       if (!blackMovesAvailable && !whiteMovesAvailable) {
         setShowGameOverMessage(true);
       } else {
-        setShowGameOverMessage(false); // Reset game over message if moves are available
+        setShowGameOverMessage(false);
       }
     }
   }, [board, showGameOverMessage, initialRender]);
+
+  const handleResetGame = () => {
+    const newBoard = Array(8)
+      .fill()
+      .map(() => Array(8).fill(null));
+    newBoard[3][3] = newBoard[4][4] = "white";
+    newBoard[3][4] = newBoard[4][3] = "black";
+    setBoard(newBoard);
+    setInitialRender(false);
+    setScores({ black: 2, white: 2 });
+    setCurrentPlayer("black");
+    setShowGameOverMessage(false);
+  };
+
+  const handleGoBack = () => {
+    // Implement the logic to go back to the previous screen or step
+    // For example, you can use react-router-dom to navigate back
+    // Replace the following line with the actual logic for going back
+    console.log("Go back logic goes here");
+  };
 
   return (
     <div className="othello-container bg-black text-white mt-3">
       <style>
         {`
+          /* Existing styles (add or modify as needed) */
           .othello-cell {
             position: relative;
             transition: background-color 0.3s ease-in-out;
@@ -233,6 +253,26 @@ const OthelloBoard = () => {
           .othello-piece.white {
             animation: discFlip 0.5s ease-in-out;
           }
+          
+          .othello-buttons {
+            display: flex;
+            margin-top: 10px; /* Adjust the margin as needed for spacing */
+          }
+
+          .othello-reset-button, .othello-goback-button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            margin: 0;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px; /* Adjust the margin as needed for spacing */
+          }
         `}
       </style>
 
@@ -275,6 +315,17 @@ const OthelloBoard = () => {
       </div>
 
       {showGameOverMessage && <p className="othello-game-over">Game Over!</p>}
+
+      {/* Reset and Go Back buttons */}
+      <div className="othello-buttons">
+        <button className="othello-reset-button" onClick={handleResetGame}>
+          Reset Game
+        </button>
+        <div className="othello-button-spacing" />
+        <button className="othello-goback-button" onClick={handleGoBack}>
+          Go Back
+        </button>
+      </div>
     </div>
   );
 };
