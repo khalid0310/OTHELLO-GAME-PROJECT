@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import '../pages/GamePage.css'; 
+import React, { useState, useEffect } from "react";
+import "../pages/GamePage.css";
+
 const TwoPlayerGame = () => {
-  const initialBoard = Array(8).fill().map(() => Array(8).fill(null));
+  const initialBoard = Array(8)
+    .fill()
+    .map(() => Array(8).fill(null));
   const [board, setBoard] = useState(initialBoard);
-  const [currentPlayer, setCurrentPlayer] = useState('black');
+  const [currentPlayer, setCurrentPlayer] = useState("black");
   const [showGameOverMessage, setShowGameOverMessage] = useState(false);
   const [initialRender, setInitialRender] = useState(true);
   const [scores, setScores] = useState({ black: 2, white: 2 }); // Initial scores
 
   useEffect(() => {
     // Initialize the central four discs
-    const newBoard = Array(8).fill().map(() => Array(8).fill(null));
-    newBoard[3][3] = newBoard[4][4] = 'white';
-    newBoard[3][4] = newBoard[4][3] = 'black';
+    const newBoard = Array(8)
+      .fill()
+      .map(() => Array(8).fill(null));
+    newBoard[3][3] = newBoard[4][4] = "white";
+    newBoard[3][4] = newBoard[4][3] = "black";
     setBoard(newBoard);
     setInitialRender(false);
   }, []);
@@ -20,10 +25,16 @@ const TwoPlayerGame = () => {
   const handleCellClick = (row, col) => {
     if (!showGameOverMessage && isValidMove(row, col)) {
       const opponent = getOpponentPlayer();
-      const newBoard = board.map(row => [...row]);
+      const newBoard = board.map((row) => [...row]);
       const directions = [
-        { row: -1, col: 0 }, { row: 1, col: 0 }, { row: 0, col: -1 }, { row: 0, col: 1 },
-        { row: -1, col: -1 }, { row: -1, col: 1 }, { row: 1, col: -1 }, { row: 1, col: 1 },
+        { row: -1, col: 0 },
+        { row: 1, col: 0 },
+        { row: 0, col: -1 },
+        { row: 0, col: 1 },
+        { row: -1, col: -1 },
+        { row: -1, col: 1 },
+        { row: 1, col: -1 },
+        { row: 1, col: 1 },
       ];
 
       for (const direction of directions) {
@@ -35,7 +46,9 @@ const TwoPlayerGame = () => {
           if (newBoard[i][j] === opponent) {
             flips.push({ row: i, col: j });
           } else if (newBoard[i][j] === currentPlayer && flips.length > 0) {
-            flips.forEach(flip => (newBoard[flip.row][flip.col] = currentPlayer));
+            flips.forEach(
+              (flip) => (newBoard[flip.row][flip.col] = currentPlayer)
+            );
             break;
           } else {
             break;
@@ -47,13 +60,17 @@ const TwoPlayerGame = () => {
       }
 
       newBoard[row][col] = currentPlayer;
-      setBoard(newBoard);
-      setCurrentPlayer(currentPlayer === 'black' ? 'white' : 'black');
-      updateScores(newBoard); // Update scores
+
+      setTimeout(() => {
+        setBoard(newBoard);
+        setCurrentPlayer(currentPlayer === "black" ? "white" : "black");
+        updateScores(newBoard); // Update scores
+      }, 500); // Adjust the delay as needed for the entry animation
     }
   };
 
-  const getOpponentPlayer = () => (currentPlayer === 'black' ? 'white' : 'black');
+  const getOpponentPlayer = () =>
+    currentPlayer === "black" ? "white" : "black";
 
   const isValidMove = (row, col) => {
     if (board[row][col]) {
@@ -62,8 +79,14 @@ const TwoPlayerGame = () => {
 
     const opponent = getOpponentPlayer();
     const directions = [
-      { row: -1, col: 0 }, { row: 1, col: 0 }, { row: 0, col: -1 }, { row: 0, col: 1 },
-      { row: -1, col: -1 }, { row: -1, col: 1 }, { row: 1, col: -1 }, { row: 1, col: 1 },
+      { row: -1, col: 0 },
+      { row: 1, col: 0 },
+      { row: 0, col: -1 },
+      { row: 0, col: 1 },
+      { row: -1, col: -1 },
+      { row: -1, col: 1 },
+      { row: 1, col: -1 },
+      { row: 1, col: 1 },
     ];
 
     for (const direction of directions) {
@@ -93,9 +116,9 @@ const TwoPlayerGame = () => {
 
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < 8; j++) {
-        if (newBoard[i][j] === 'black') {
+        if (newBoard[i][j] === "black") {
           scoresObject.black++;
-        } else if (newBoard[i][j] === 'white') {
+        } else if (newBoard[i][j] === "white") {
           scoresObject.white++;
         }
       }
@@ -123,10 +146,64 @@ const TwoPlayerGame = () => {
 
   return (
     <div className="othello-container bg-green-100/50 shadow -md">
+      <style>
+        {`
+          .othello-cell {
+            position: relative;
+            transition: background-color 0.3s ease-in-out;
+          }
+
+          .valid-move {
+            background-color: rgba(0, 255, 0, 0.5);
+          }
+
+          .othello-piece {
+            position: absolute;
+            animation-duration: 0.5s;
+          }
+
+          @keyframes discEntry {
+            from {
+              transform: scale(0);
+            }
+            to {
+              transform: scale(1);
+            }
+          }
+
+          .black-disc {
+            animation-name: discEntry;
+          }
+
+          .white-disc {
+            animation-name: discEntry;
+          }
+
+          @keyframes discFlip {
+            from {
+              transform: rotateY(0deg);
+            }
+            to {
+              transform: rotateY(180deg);
+            }
+          }
+
+          .othello-piece.black {
+            animation: discFlip 0.5s ease-in-out;
+          }
+
+          .othello-piece.white {
+            animation: discFlip 0.5s ease-in-out;
+          }
+        `}
+      </style>
+
       <div className="othello-profile black-profile">
         <div className="othello-disc black-disc" />
-        <p className='px-4 text-purple-500 border-1 border-l-2 border-black py-3 font-bold '>Black Turn</p>
-        <p className='px-4 font-light text-2xl'>Black Score: {scores.black}</p>
+        <p className="px-4 text-purple-500 border-1 border-l-2 border-black py-3 font-bold ">
+          Black Turn
+        </p>
+        <p className="px-4 font-light text-2xl">Black Score: {scores.black}</p>
       </div>
 
       <div className="othello-board">
@@ -135,7 +212,9 @@ const TwoPlayerGame = () => {
             {row.map((cell, colIndex) => (
               <div
                 key={`${rowIndex}-${colIndex}`}
-                className={`othello-cell ${isValidMove(rowIndex, colIndex) ? 'valid-move' : ''}`}
+                className={`othello-cell ${
+                  isValidMove(rowIndex, colIndex) ? "valid-move" : ""
+                }`}
                 onClick={() => handleCellClick(rowIndex, colIndex)}
               >
                 {cell && <div className={`othello-piece ${cell}`} />}
@@ -146,10 +225,11 @@ const TwoPlayerGame = () => {
       </div>
 
       <div className="othello-profile white-profile">
-
         <div className="othello-disc white-disc" />
-        <p className='px-4 text-purple-900 border-1 border-l-2 border-gray-200 py-3 font-bold'>Black Turn</p>
-        <p className='px-4 font-bold text-2xl'>White Score: {scores.white}</p>
+        <p className="px-4 text-purple-900 border-1 border-l-2 border-gray-200 py-3 font-bold">
+          White Turn
+        </p>
+        <p className="px-4 font-bold text-2xl">White Score: {scores.white}</p>
       </div>
 
       {showGameOverMessage && <p className="othello-game-over">Game Over!</p>}
