@@ -36,6 +36,7 @@
   .othello-board {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     width: 480px; /* Adjust as needed */
     margin: 0 auto;
   }

@@ -122,11 +122,11 @@ const TwoPlayerGame = () => {
   }, [board, showGameOverMessage, initialRender, currentPlayer]);
 
   return (
-    <div className="othello-container">
+    <div className="othello-container bg-slate-300">
       <div className="othello-profile black-profile">
         <div className="othello-disc black-disc" />
-        <p>Black Turn</p>
-        <p>Black Score: {scores.black}</p>
+        <p className='px-4 text-purple-500 border-1 border-l-2 border-black py-3 font-bold '>Black Turn</p>
+        <p className='px-4 font-light text-2xl'>Black Score: {scores.black}</p>
       </div>
 
       <div className="othello-board">
@@ -146,9 +146,10 @@ const TwoPlayerGame = () => {
       </div>
 
       <div className="othello-profile white-profile">
+
         <div className="othello-disc white-disc" />
-        <p>White Turn</p>
-        <p>White Score: {scores.white}</p>
+        <p className='px-4 text-purple-900 border-1 border-l-2 border-gray-200 py-3 font-bold'>Black Turn</p>
+        <p className='px-4 font-bold text-2xl'>White Score: {scores.white}</p>
       </div>
 
       {showGameOverMessage && <p className="othello-game-over">Game Over!</p>}

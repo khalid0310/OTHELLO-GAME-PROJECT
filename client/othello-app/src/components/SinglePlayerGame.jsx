@@ -4,8 +4,8 @@ import OthelloBoard from './OthelloBoard'; // Adjust the path as per your file s
 
 function SinglePlayerGame() {
   return (
-    <div>
-      <h1>Single Player Game</h1>
+    <div className=' '>
+      <h1 className='text-4xl'>Single Player Game</h1>
       <OthelloBoard />
     </div>
   );

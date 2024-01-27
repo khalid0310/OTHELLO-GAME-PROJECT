@@ -158,11 +158,11 @@ const OthelloBoard = () => {
   }, [board, showGameOverMessage, initialRender]);
   
   return (
-    <div className="othello-container">
+    <div className="othello-container bg-black text-white mt-3  ">
       <div className="othello-profile black-profile">
-        <div className="othello-disc black-disc" />
-        <p>Black Turn</p>
-        <p>Black Score: {scores.black}</p>
+        <div className="othello-disc black-disc " />
+        <p className='px-4 text-purple-500 border-1 border-l-2 border-gray-200 py-3 font-bold'>Black Turn</p>
+        <p className='px-3 sm:text-2xl font-light'>Black Score: {scores.black}</p>
       </div>
 
       <div className="othello-board">
@@ -181,10 +181,10 @@ const OthelloBoard = () => {
         ))}
       </div>
 
-      <div className="othello-profile white-profile">
-        <div className="othello-disc white-disc" />
-        <p>Computer's Turn</p>
-        <p>White Score: {scores.white}</p>
+      <div className="othello-profile white-profile ">
+        <div className="othello-disc white-disc " />
+        <p className='px-4 text-red-500 border-1 border-l-2 border-gray-200 py-3 font-bold'>Computer's Turn</p>
+        <p className='px-3 font-bold sm:text-2xl'>White Score: {scores.white}</p>
       </div>
 
       {showGameOverMessage && <p className="othello-game-over">Game Over!</p>}

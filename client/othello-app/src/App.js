@@ -13,7 +13,7 @@ import GamePage from './pages/GamePage';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App mx-8">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
