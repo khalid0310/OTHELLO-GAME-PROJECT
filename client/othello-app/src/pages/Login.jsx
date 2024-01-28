@@ -1,6 +1,6 @@
 // Import statements
 import React, { useState, useEffect } from "react";
- import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./login.css"; // Make sure to import your stylesheet
 
 // Login component
@@ -60,7 +60,7 @@ function Login() {
 
   // JSX
   return (
-    <div id="bd" className="login-box">
+    <div id="bd" className="login-box" style={{ backgroundColor: "#add8e6" }}>
       {!loginSuccess ? (
         <form>
           <div className="user-box">
@@ -97,12 +97,19 @@ function Login() {
           </div>
           {/* Use button instead of Link */}
           <button
-            className="submit-btn"
+            className="submit-btn btn-6" // Add the "btn-6" class to apply the provided styles
             onClick={handleLogin}
             disabled={loggingIn}
           >
-            {loggingIn ? "Logging in..." : "Log In"}
+            <span>
+              {loggingIn ? "Logging in..." : "Log In"}
+              <div className="btn-line"></div>
+              <div className="btn-line"></div>
+              <div className="btn-line"></div>
+              <div className="btn-line"></div>
+            </span>
           </button>
+
           <p className="signup-link">
             Don't have an account?{" "}
             <Link to="/signup" className="signup-link-text">
