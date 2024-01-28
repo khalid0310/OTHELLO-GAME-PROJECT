@@ -23,14 +23,15 @@ class User(db.Model):
         return f"User('{self.username}', '{self.email}')"
 
 
-class Move(db.Model):
+class Points(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    move_number = db.Column(db.Integer, nullable=False)
-    move_description = db.Column(db.String(255), nullable=False)
+    player_point = db.Column(db.Integer, nullable=False)
+    cpu_point = db.Column(db.Integer, nullable=False)
+    win_or_lose = db.Column(db.String(10), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     def __repr__(self):
-        return f"Move(id={self.id}, move_number={self.move_number}, move_description='{self.move_description}', user_id={self.user_id})"
+        return f"Points(id={self.id}, player_point={self.player_point}, cpu_point={self.cpu_point}, win_or_lose={self.win_or_lose}, user_id={self.user_id})"
 
 
 class PlayerScore(db.Model):
