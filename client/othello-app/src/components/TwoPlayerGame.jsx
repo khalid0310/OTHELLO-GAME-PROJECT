@@ -9,7 +9,8 @@ const TwoPlayerGame = () => {
   const [currentPlayer, setCurrentPlayer] = useState("black");
   const [showGameOverMessage, setShowGameOverMessage] = useState(false);
   const [initialRender, setInitialRender] = useState(true);
-  const [scores, setScores] = useState({ black: 2, white: 2 }); // Initial scores
+  const [scores, setScores] = useState({ black: 2, white: 2 });
+  const [winnerMessage, setWinnerMessage] = useState("");
 
   useEffect(() => {
     const newBoard = Array(8)
@@ -75,7 +76,6 @@ const TwoPlayerGame = () => {
       setCurrentPlayer(currentPlayer === "black" ? "white" : "black");
       memoizedUpdateScores();
 
-      // Make move on the server
       fetch("http://localhost:4000/othello/make_move", {
         method: "POST",
         headers: {
@@ -101,7 +101,7 @@ const TwoPlayerGame = () => {
 
   const isValidMove = (row, col) => {
     if (board[row][col]) {
-      return false; // Cell is not empty
+      return false;
     }
 
     const opponent = getOpponentPlayer();
@@ -125,7 +125,7 @@ const TwoPlayerGame = () => {
         if (board[i][j] === opponent) {
           foundOpponent = true;
         } else if (board[i][j] === currentPlayer && foundOpponent) {
-          return true; // Valid move
+          return true;
         } else {
           break;
         }
@@ -164,11 +164,11 @@ const TwoPlayerGame = () => {
     setCurrentPlayer("black");
     setShowGameOverMessage(false);
     setScores({ black: 2, white: 2 });
+    setWinnerMessage("");
     setInitialRender(false);
   };
 
   const goBack = () => {
-    // Implement the logic to go back (if applicable)
     console.log("Go back functionality");
   };
 
@@ -183,16 +183,27 @@ const TwoPlayerGame = () => {
       );
 
       if (!blackMovesAvailable && !whiteMovesAvailable) {
+        const winner = determineWinner();
         setShowGameOverMessage(true);
+        setWinnerMessage(winner ? `${winner} Wins!` : "It's a Tie!");
       }
     }
   }, [board, showGameOverMessage, initialRender, currentPlayer]);
+
+  const determineWinner = () => {
+    if (scores.black > scores.white) {
+      return "Black";
+    } else if (scores.white > scores.black) {
+      return "White";
+    } else {
+      return null;
+    }
+  };
 
   return (
     <div className="othello-container bg-green-100/50 shadow -md">
       <style>
         {`
-          /* Existing styles (add or modify as needed) */
           .othello-cell {
             position: relative;
             transition: background-color 0.3s ease-in-out;
@@ -258,11 +269,11 @@ const TwoPlayerGame = () => {
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
-            margin-right: 10px; /* Adjust the margin as needed for spacing */
+            margin-right: 10px;
           }
 
           .othello-button-space {
-            flex: 1; /* This will create space between buttons */
+            flex: 1;
           }
         `}
       </style>
@@ -270,11 +281,10 @@ const TwoPlayerGame = () => {
       <div className="othello-profile black-profile">
         <div className="othello-disc black-disc" />
         <p className="px-4 text-purple-500 border-1 border-l-2 border-black py-3 font-bold">
-          {currentPlayer === "black" ? "Black Turn" : "White Turn"}
+          Black Turn
         </p>
         <p className="px-4 font-light text-2xl">
-          {currentPlayer === "black" ? "Black Score" : "White Score"}:{" "}
-          {currentPlayer === "black" ? scores.black : scores.white}
+          Black Score: {scores.black}
         </p>
       </div>
 
@@ -299,11 +309,10 @@ const TwoPlayerGame = () => {
       <div className="othello-profile white-profile">
         <div className="othello-disc white-disc" />
         <p className="px-4 text-purple-900 border-1 border-l-2 border-gray-200 py-3 font-bold">
-          {currentPlayer === "white" ? "White Turn" : "Black Turn"}
+          White Turn
         </p>
         <p className="px-4 font-bold text-2xl">
-          {currentPlayer === "white" ? "White Score" : "Black Score"}:{" "}
-          {currentPlayer === "white" ? scores.white : scores.black}
+          White Score: {scores.white}
         </p>
       </div>
 
@@ -317,7 +326,7 @@ const TwoPlayerGame = () => {
         </button>
       </div>
 
-      {showGameOverMessage && <p className="othello-game-over">Game Over!</p>}
+      {showGameOverMessage && <p className="othello-game-over">{winnerMessage}</p>}
     </div>
   );
 };

@@ -10,6 +10,7 @@ const OthelloBoard = () => {
   const [showGameOverMessage, setShowGameOverMessage] = useState(false);
   const [initialRender, setInitialRender] = useState(true);
   const [scores, setScores] = useState({ black: 2, white: 2 }); // Initial scores
+  const [winner, setWinner] = useState(null);
 
   useEffect(() => {
     const newBoard = Array(8)
@@ -192,12 +193,19 @@ const OthelloBoard = () => {
       );
 
       if (!blackMovesAvailable && !whiteMovesAvailable) {
+        const winnerMessage =
+          scores.black > scores.white
+            ? "Black Wins!"
+            : scores.white > scores.black
+            ? "White Wins!"
+            : "It's a Tie!";
+        setWinner(winnerMessage);
         setShowGameOverMessage(true);
       } else {
         setShowGameOverMessage(false);
       }
     }
-  }, [board, showGameOverMessage, initialRender]);
+  }, [board, showGameOverMessage, initialRender, scores]);
 
   const handleResetGame = () => {
     const newBoard = Array(8)
@@ -210,6 +218,7 @@ const OthelloBoard = () => {
     setScores({ black: 2, white: 2 });
     setCurrentPlayer("black");
     setShowGameOverMessage(false);
+    setWinner(null);
   };
 
   const handleGoBack = () => {
@@ -332,7 +341,7 @@ const OthelloBoard = () => {
         </p>
       </div>
 
-      {showGameOverMessage && <p className="othello-game-over">Game Over!</p>}
+      {showGameOverMessage && <p className="othello-game-over">{winner}</p>}
 
       {/* Reset and Go Back buttons */}
       <div className="othello-buttons">
