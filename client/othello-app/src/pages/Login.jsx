@@ -1,19 +1,19 @@
-// Import statements
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./login.css"; // Make sure to import your stylesheet
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
+import CustomAlert from './CustomAlert';
+import './login.css';
 
-// Login component
 function Login() {
-  // State
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [keepSignedIn, setKeepSignedIn] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
 
-  // Functions
   const handleCheckboxChange = () => {
     setKeepSignedIn(!keepSignedIn);
   };
@@ -22,10 +22,10 @@ function Login() {
     setLoggingIn(true);
 
     try {
-      const response = await fetch("http://localhost:4000/login", {
-        method: "POST",
+      const response = await fetch('http://localhost:4000/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username: username,
@@ -34,39 +34,38 @@ function Login() {
       });
 
       if (response.ok) {
-        // Login successful
         setLoginSuccess(true);
       } else {
         const data = await response.json();
-        alert("Login failed: " + data.message);
+        setAlertMessage(`Login failed: ${data.message}`);
+        setShowAlert(true);
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error('Error during login:', error);
     } finally {
       setLoggingIn(false);
     }
   };
 
-  // Redirect to "/game" after successful login
   useEffect(() => {
     const redirectTimeout = setTimeout(() => {
       if (loginSuccess) {
-        navigate("/game");
+        navigate('/game');
       }
-    }, 1000); // 1000 milliseconds (1 second)
+    }, 1000);
 
     return () => clearTimeout(redirectTimeout);
   }, [loginSuccess, navigate]);
 
-  // JSX
   return (
-    <div id="bd" className="login-box" style={{ backgroundColor: "#add8e6" }}>
+    <div id="bd" className="login-box" style={{ backgroundColor: '#add8e6' }}>
       {!loginSuccess ? (
         <form>
           <div className="user-box">
             <input
               type="text"
               name="username"
+              autoComplete="off"
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -95,23 +94,21 @@ function Login() {
               Keep me signed in
             </label>
           </div>
-          {/* Use button instead of Link */}
           <button
-            className="submit-btn btn-6" // Add the "btn-6" class to apply the provided styles
+            className="submit-btn btn-6"
             onClick={handleLogin}
             disabled={loggingIn}
           >
             <span>
-              {loggingIn ? "Logging in..." : "Log In"}
+              {loggingIn ? 'Logging in...' : 'Log In'}
               <div className="btn-line"></div>
               <div className="btn-line"></div>
               <div className="btn-line"></div>
               <div className="btn-line"></div>
             </span>
           </button>
-
           <p className="signup-link">
-            Don't have an account?{" "}
+            Don't have an account?{' '}
             <Link to="/signup" className="signup-link-text">
               Sign Up
             </Link>
@@ -119,11 +116,14 @@ function Login() {
         </form>
       ) : (
         <p>Login successful. Redirecting...</p>
-        // You can add a loading spinner or other UI here if needed
       )}
+      <CustomAlert
+        isOpen={showAlert}
+        message={alertMessage}
+        onRequestClose={() => setShowAlert(false)}
+      />
     </div>
   );
 }
 
-// Export statement
 export default Login;
