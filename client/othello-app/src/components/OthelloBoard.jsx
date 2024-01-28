@@ -36,6 +36,24 @@ const OthelloBoard = () => {
       isValidMove(row, col)
     ) {
       makeMove(row, col);
+
+      fetch("http://localhost:4000/othello/make_move", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          row,
+          col,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error making move:", error);
+        });
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../pages/GamePage.css";
 
 const TwoPlayerGame = () => {
@@ -12,7 +12,6 @@ const TwoPlayerGame = () => {
   const [scores, setScores] = useState({ black: 2, white: 2 }); // Initial scores
 
   useEffect(() => {
-    // Initialize the central four discs
     const newBoard = Array(8)
       .fill()
       .map(() => Array(8).fill(null));
@@ -22,8 +21,20 @@ const TwoPlayerGame = () => {
     setInitialRender(false);
   }, []);
 
+  const memoizedHandleCellClick = useCallback(
+    (row, col) => handleCellClick(row, col),
+    [board, currentPlayer, showGameOverMessage, initialRender]
+  );
+
+  const memoizedIsValidMove = useCallback(
+    (row, col) => isValidMove(row, col),
+    [board, currentPlayer]
+  );
+
+  const memoizedUpdateScores = useCallback(() => updateScores(board), [board]);
+
   const handleCellClick = (row, col) => {
-    if (!showGameOverMessage && isValidMove(row, col)) {
+    if (!showGameOverMessage && memoizedIsValidMove(row, col)) {
       const opponent = getOpponentPlayer();
       const newBoard = board.map((row) => [...row]);
       const directions = [
@@ -62,7 +73,26 @@ const TwoPlayerGame = () => {
       newBoard[row][col] = currentPlayer;
       setBoard(newBoard);
       setCurrentPlayer(currentPlayer === "black" ? "white" : "black");
-      updateScores(newBoard); // Update scores
+      memoizedUpdateScores();
+
+      // Make move on the server
+      fetch("http://localhost:4000/othello/make_move", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          row,
+          col,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error making move:", error);
+        });
     }
   };
 
@@ -125,7 +155,6 @@ const TwoPlayerGame = () => {
   };
 
   const resetGame = () => {
-    // Reset the game to initial state
     const newBoard = Array(8)
       .fill()
       .map(() => Array(8).fill(null));
@@ -145,13 +174,12 @@ const TwoPlayerGame = () => {
 
   useEffect(() => {
     if (!initialRender) {
-      // Check for game over condition (no available moves for both players)
       const blackMovesAvailable = board.some((row, i) =>
-        row.some((cell, j) => cell === null && isValidMove(i, j))
+        row.some((cell, j) => cell === null && memoizedIsValidMove(i, j))
       );
 
       const whiteMovesAvailable = board.some((row, i) =>
-        row.some((cell, j) => cell === null && isValidMove(i, j))
+        row.some((cell, j) => cell === null && memoizedIsValidMove(i, j))
       );
 
       if (!blackMovesAvailable && !whiteMovesAvailable) {
@@ -164,6 +192,7 @@ const TwoPlayerGame = () => {
     <div className="othello-container bg-green-100/50 shadow -md">
       <style>
         {`
+          /* Existing styles (add or modify as needed) */
           .othello-cell {
             position: relative;
             transition: background-color 0.3s ease-in-out;
@@ -240,10 +269,13 @@ const TwoPlayerGame = () => {
 
       <div className="othello-profile black-profile">
         <div className="othello-disc black-disc" />
-        <p className="px-4 text-purple-500 border-1 border-l-2 border-black py-3 font-bold ">
-          Black Turn
+        <p className="px-4 text-purple-500 border-1 border-l-2 border-black py-3 font-bold">
+          {currentPlayer === "black" ? "Black Turn" : "White Turn"}
         </p>
-        <p className="px-4 font-light text-2xl">Black Score: {scores.black}</p>
+        <p className="px-4 font-light text-2xl">
+          {currentPlayer === "black" ? "Black Score" : "White Score"}:{" "}
+          {currentPlayer === "black" ? scores.black : scores.white}
+        </p>
       </div>
 
       <div className="othello-board">
@@ -253,9 +285,9 @@ const TwoPlayerGame = () => {
               <div
                 key={`${rowIndex}-${colIndex}`}
                 className={`othello-cell ${
-                  isValidMove(rowIndex, colIndex) ? "valid-move" : ""
+                  memoizedIsValidMove(rowIndex, colIndex) ? "valid-move" : ""
                 }`}
-                onClick={() => handleCellClick(rowIndex, colIndex)}
+                onClick={() => memoizedHandleCellClick(rowIndex, colIndex)}
               >
                 {cell && <div className={`othello-piece ${cell}`} />}
               </div>
@@ -267,9 +299,12 @@ const TwoPlayerGame = () => {
       <div className="othello-profile white-profile">
         <div className="othello-disc white-disc" />
         <p className="px-4 text-purple-900 border-1 border-l-2 border-gray-200 py-3 font-bold">
-          White Turn
+          {currentPlayer === "white" ? "White Turn" : "Black Turn"}
         </p>
-        <p className="px-4 font-bold text-2xl">White Score: {scores.white}</p>
+        <p className="px-4 font-bold text-2xl">
+          {currentPlayer === "white" ? "White Score" : "Black Score"}:{" "}
+          {currentPlayer === "white" ? scores.white : scores.black}
+        </p>
       </div>
 
       <div className="othello-buttons">
