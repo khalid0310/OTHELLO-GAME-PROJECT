@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../pages/GamePage.css";
-import moveSound from "";
+import moveSound from "./music/Collision8-Bit.ogg";
 
 const OthelloBoard = () => {
   const initialBoard = Array(8)
