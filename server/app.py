@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
-from models import db, User, Points 
+from models import db, User, Points
 from othello_game import OthelloGame
 
 app = Flask(__name__)
@@ -25,10 +25,13 @@ othello_game = OthelloGame()
 # Home route
 @app.route("/")
 def home():
-    return "Hello, Flask app with database!"
+    return "Hello, Wellcome to Othello game!"
 
 
 # Route for user signup
+import re
+
+
 @app.route("/signup", methods=["POST"])
 def signup():
     if request.method == "POST":
@@ -37,6 +40,35 @@ def signup():
         username = data.get("username")
         email = data.get("email")
         password = data.get("password")
+
+        # Validate username format
+        if not re.match("^[a-zA-Z]+$", username):
+            return (
+                jsonify(
+                    {
+                        "message": "Invalid username format. Please use alphanumeric characters."
+                    }
+                ),
+                400,
+            )
+
+        # Validate email format
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            return (
+                jsonify(
+                    {
+                        "message": "Invalid email format. Please provide a valid email address."
+                    }
+                ),
+                400,
+            )
+
+        # Check if email is from gmail.com
+        if not email.endswith("@gmail.com"):
+            return (
+                jsonify({"message": "Only Gmail addresses are allowed for signup."}),
+                400,
+            )
 
         existing_user = (
             User.query.filter_by(username=username).first()
@@ -173,26 +205,39 @@ def reset_game():
         othello_game.reset_game()
         return jsonify({"message": "Othello game reset successfully"})
 
-@app.route('/othello/finish_game', methods=['POST'])
+
+@app.route("/othello/finish_game", methods=["POST"])
 def finish_game():
     data = request.json
 
-    user_id = data.get('user_id')
-    player_point = data.get('player_point')
-    cpu_point = data.get('cpu_point')
-    win_or_lose = data.get('win_or_lose')
+    user_id = data.get("user_id")
+    player_point = data.get("player_point")
+    cpu_point = data.get("cpu_point")
+    win_or_lose = data.get("win_or_lose")
 
     # Update the Points table in the database
     new_points = Points(
         user_id=user_id,
         player_point=player_point,
         cpu_point=cpu_point,
-        win_or_lose=win_or_lose
+        win_or_lose=win_or_lose,
     )
     db.session.add(new_points)
     db.session.commit()
 
     return jsonify({"message": "Game result recorded successfully"})
+
+
+@app.route("/get_all_users", methods=["GET"])
+def get_all_users():
+    if request.method == "GET":
+        users = User.query.all()
+        user_list = [
+            {"id": user.id, "username": user.username, "email": user.email}
+            for user in users
+        ]
+        return jsonify({"users": user_list})
+
 
 if __name__ == "__main__":
     app.run(port=4000, debug=True)

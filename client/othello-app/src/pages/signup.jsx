@@ -21,7 +21,6 @@ const SignupPage = () => {
   const animateWelcomeScreen = () => {
     const welcomeLogin = document.getElementById("terminal");
     if (!welcomeLogin) {
-      // The element might not be available, check and return
       return;
     }
 
@@ -64,8 +63,17 @@ const SignupPage = () => {
   };
 
   const handleSignup = async () => {
-    if (playerName.trim() !== "" && email.trim() !== "" && password.trim() !== "") {
-      // Check if the email meets Gmail requirements
+    if (
+      playerName.trim() !== "" &&
+      email.trim() !== "" &&
+      password.trim() !== ""
+    ) {
+      const containsNumbers = /\d/.test(playerName);
+      if (containsNumbers) {
+        alert("Username cannot contain numbers.");
+        return;
+      }
+
       const gmailRegex = /^[a-zA-Z0-9]+@gmail.com$/;
       if (!gmailRegex.test(email)) {
         alert("Please enter a valid Gmail address.");
@@ -75,7 +83,6 @@ const SignupPage = () => {
       setSigningUp(true);
 
       try {
-        console.log("Sending signup request...");
         const response = await fetch("http://localhost:4000/signup", {
           method: "POST",
           headers: {
@@ -89,9 +96,8 @@ const SignupPage = () => {
         });
 
         if (response.ok) {
-          // Signup successful, redirect to the login page
           console.log("Signup successful!");
-          navigate("/login"); // Change "/login" to the actual login route
+          navigate("/login");
         } else {
           const data = await response.json();
           console.error("Signup failed:", data.message);
