@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
-from models import db, User
+from models import db, User, Points 
 from othello_game import OthelloGame
 
 app = Flask(__name__)
@@ -173,6 +173,26 @@ def reset_game():
         othello_game.reset_game()
         return jsonify({"message": "Othello game reset successfully"})
 
+@app.route('/othello/finish_game', methods=['POST'])
+def finish_game():
+    data = request.json
+
+    user_id = data.get('user_id')
+    player_point = data.get('player_point')
+    cpu_point = data.get('cpu_point')
+    win_or_lose = data.get('win_or_lose')
+
+    # Update the Points table in the database
+    new_points = Points(
+        user_id=user_id,
+        player_point=player_point,
+        cpu_point=cpu_point,
+        win_or_lose=win_or_lose
+    )
+    db.session.add(new_points)
+    db.session.commit()
+
+    return jsonify({"message": "Game result recorded successfully"})
 
 if __name__ == "__main__":
     app.run(port=4000, debug=True)

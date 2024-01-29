@@ -219,6 +219,25 @@ const OthelloBoard = () => {
     setCurrentPlayer("black");
     setShowGameOverMessage(false);
     setWinner(null);
+    fetch("http://localhost:4000/othello/finish_game", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: 1, // Replace with the actual user ID or retrieve it dynamically
+        player_point: scores.black, // Assuming black is the player
+        cpu_point: scores.white, // Assuming white is the CPU
+        win_or_lose: winner === "Black Wins!" ? "win" : winner === "White Wins!" ? "lose" : "tie",
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error recording game result:", error);
+      });
   };
 
   const handleGoBack = () => {
