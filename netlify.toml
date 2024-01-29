@@ -4,4 +4,4 @@
 
 # Specify build environment for Python dependencies
 [build.environment]
-  PYTHON_VERSION = "3.8.13"  # Replace with your desired Python version
+  PYTHON_VERSION = "3.11.6"  # Replace with your desired Python version

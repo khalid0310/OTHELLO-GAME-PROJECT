@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../pages/GamePage.css";
+import moveSound from "";
 
 const OthelloBoard = () => {
   const initialBoard = Array(8)
@@ -11,6 +12,7 @@ const OthelloBoard = () => {
   const [initialRender, setInitialRender] = useState(true);
   const [scores, setScores] = useState({ black: 2, white: 2 }); // Initial scores
   const [winner, setWinner] = useState(null);
+  const moveAudio = new Audio(moveSound);
 
   useEffect(() => {
     const newBoard = Array(8)
@@ -58,50 +60,49 @@ const OthelloBoard = () => {
     }
   };
 
-  const makeMove = (row, col) => {
-    const opponent = currentPlayer === "black" ? "white" : "black";
-    const newBoard = board.map((row) => [...row]);
-    const directions = [
-      { row: -1, col: 0 },
-      { row: 1, col: 0 },
-      { row: 0, col: -1 },
-      { row: 0, col: 1 },
-      { row: -1, col: -1 },
-      { row: -1, col: 1 },
-      { row: 1, col: -1 },
-      { row: 1, col: 1 },
-    ];
+const makeMove = (row, col) => {
+  const opponent = currentPlayer === "black" ? "white" : "black";
+  const newBoard = board.map((row) => [...row]);
+  const directions = [
+    { row: -1, col: 0 },
+    { row: 1, col: 0 },
+    { row: 0, col: -1 },
+    { row: 0, col: 1 },
+    { row: -1, col: -1 },
+    { row: -1, col: 1 },
+    { row: 1, col: -1 },
+    { row: 1, col: 1 },
+  ];
 
-    for (const direction of directions) {
-      let i = row + direction.row;
-      let j = col + direction.col;
-      let flips = [];
+  for (const direction of directions) {
+    let i = row + direction.row;
+    let j = col + direction.col;
+    let flips = [];
 
-      while (i >= 0 && i < 8 && j >= 0 && j < 8) {
-        if (newBoard[i][j] === opponent) {
-          flips.push({ row: i, col: j });
-        } else if (newBoard[i][j] === currentPlayer && flips.length > 0) {
-          flips.forEach(
-            (flip) => (newBoard[flip.row][flip.col] = currentPlayer)
-          );
-          break;
-        } else {
-          break;
-        }
-
-        i += direction.row;
-        j += direction.col;
+    while (i >= 0 && i < 8 && j >= 0 && j < 8) {
+      if (newBoard[i][j] === opponent) {
+        flips.push({ row: i, col: j });
+      } else if (newBoard[i][j] === currentPlayer && flips.length > 0) {
+        flips.forEach((flip) => (newBoard[flip.row][flip.col] = currentPlayer));
+        break;
+      } else {
+        break;
       }
+
+      i += direction.row;
+      j += direction.col;
     }
+  }
 
-    newBoard[row][col] = currentPlayer;
+  newBoard[row][col] = currentPlayer;
 
-    setTimeout(() => {
-      setBoard(newBoard);
-      updateScores(newBoard);
-      switchPlayer();
-    }, 500); // Adjust the delay as needed for the entry animation
-  };
+  setTimeout(() => {
+    setBoard(newBoard);
+    updateScores(newBoard);
+    switchPlayer();
+    moveAudio.play(); // Play the sound effect
+  }, 500); // Adjust the delay as needed for the entry animation
+};
 
   const makeComputerMove = () => {
     const availableMoves = [];
