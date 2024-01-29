@@ -32,6 +32,12 @@ function GamePage() {
         <h1 className="text-4xl ">Game Page</h1>
         <FaGamepad className="text-5xl text-gray-500 font-bold" />
       </div>
+      <button
+        className="w-[10%] bg-slate-200/20 shadow-inner text-black rounded-full"
+        onClick={handleSignOut}
+      >
+        Sign Out
+      </button>
       <div className="flex gap-4 py-4">
         <div className="flex items-center gap-3 active:text-red-700 bg-black hover:bg-slate-700 text-white p-4 transition duration-300 ease-in-out transform hover:text-purple-300">
           <Link to="/game/singleplayer">Single Player</Link> <FaUser />
@@ -42,12 +48,7 @@ function GamePage() {
         </div>
       </div>
 
-      <button
-        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        onClick={handleSignOut}
-      >
-        Sign Out
-      </button>
+      <SinglePlayerPage />
 
       <Routes>
         <Route path="/singleplayer" element={<SinglePlayerPage />} />

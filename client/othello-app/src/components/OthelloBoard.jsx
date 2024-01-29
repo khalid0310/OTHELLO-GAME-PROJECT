@@ -300,24 +300,35 @@ const OthelloBoard = () => {
             animation: discFlip 0.5s ease-in-out;
           }
           
-          .othello-buttons {
-            display: flex;
-            margin-top: 10px; /* Adjust the margin as needed for spacing */
-          }
+          // .othello-buttons {
+          //   display: flex;
+          //   margin-top: 10px; /* Adjust the margin as needed for spacing */
+          // }
 
+          // .othello-reset-button, .othello-goback-button {
+          //   background-color: #3498db;
+          //   color: #fff;
+          //   padding: 10px;
+          //   border: none;
+          //   margin: 0;
+          //   text-align: center;
+          //   text-decoration: none;
+          //   display: inline-block;
+          //   font-size: 16px;
+          //   cursor: pointer;
+          //   border-radius: 5px;
+          //   margin-right: 10px; /* Adjust the margin as needed for spacing */
+          // }
+          .othello-buttons {
+            @apply flex mt-4 space-x-4; // Use Tailwind's apply directive to add utility classes
+          }
+          
           .othello-reset-button, .othello-goback-button {
-            background-color: #3498db;
-            color: #fff;
-            padding: 10px;
-            border: none;
-            margin: 0;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-right: 10px; /* Adjust the margin as needed for spacing */
+            @apply bg-blue-500 text-white px-4 py-2 rounded-md; // Add Tailwind classes
+          }
+          
+          .othello-goback-button {
+            @apply bg-red-500; // Change background color for Go Back button
           }
         `}
       </style>
@@ -367,8 +378,8 @@ const OthelloBoard = () => {
         <button className="othello-reset-button" onClick={handleResetGame}>
           Reset Game
         </button>
-        <div className="othello-button-spacing" />
-        <button className="othello-goback-button" onClick={handleGoBack}>
+        <div className="othello-button-spacing mt-3" />
+        <button className="othello-goback-button  cursor-not-allowed" onClick={handleGoBack}>
           Go Back
         </button>
       </div>
