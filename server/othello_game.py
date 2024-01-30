@@ -111,16 +111,6 @@ class OthelloGame:
     def is_game_over(self):
         return self.game_over
 
-    def reset_game(self):
-        self.board = [
-            [" " for _ in range(self.board_size)] for _ in range(self.board_size)
-        ]
-        self.board[3][3] = self.board[4][4] = "O"
-        self.board[3][4] = self.board[4][3] = "X"
-        self.current_player = "X"
-        self.game_over = False
-        self.scores = {"X": 2, "O": 2}
-
     def make_computer_move(self):
         available_moves = []
         for i in range(self.board_size):
@@ -136,3 +126,16 @@ class OthelloGame:
             return self.make_move(row, col)
         else:
             return {"message": "No available moves for the computer."}
+
+
+    def reset_game(self):
+        self.board = [
+            [" " for _ in range(self.board_size)] for _ in range(self.board_size)
+        ]
+        self.board[3][3] = self.board[4][4] = "O"
+        self.board[3][4] = self.board[4][3] = "X"
+        self.current_player = "X"
+        self.game_over = False
+        self.scores = {"X": 2, "O": 2}
+
+   
