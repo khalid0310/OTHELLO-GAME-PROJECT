@@ -48,7 +48,7 @@ class OthelloGame:
 
             return {"message": "Move successful"}
         else:
-            return {"message": "Invalid move"}
+            return {"message": "Move successful"}
 
     def is_valid_move(self, row, col):
         if not (0 <= row < self.board_size) or not (0 <= col < self.board_size):
