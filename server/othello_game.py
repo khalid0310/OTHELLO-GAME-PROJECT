@@ -1,3 +1,6 @@
+import random
+
+
 class OthelloGame:
     def __init__(self):
         self.board_size = 8
@@ -117,3 +120,19 @@ class OthelloGame:
         self.current_player = "X"
         self.game_over = False
         self.scores = {"X": 2, "O": 2}
+
+    def make_computer_move(self):
+        available_moves = []
+        for i in range(self.board_size):
+            for j in range(self.board_size):
+                if self.is_valid_move(i, j):
+                    available_moves.append((i, j))
+
+        if available_moves:
+            # Choose a random move from available moves
+            computer_move = random.choice(available_moves)
+            row, col = computer_move
+
+            return self.make_move(row, col)
+        else:
+            return {"message": "No available moves for the computer."}
