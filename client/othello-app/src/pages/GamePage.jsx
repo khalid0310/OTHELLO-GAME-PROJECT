@@ -85,7 +85,7 @@ function GamePage() {
       {/* Add an <audio> element for background music without controls */}
       <audio ref={audioRef} loop controls={false}>
         <source
-          src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+          // src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
           type="audio/mp3"
         />
         {/* Add additional source elements for different audio formats if needed */}
